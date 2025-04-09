@@ -448,7 +448,10 @@
       document.getElementById('cards-container').style.display = 'block';
 
       // Comando de impressão automática
-      window.print();
+      const logoImage = document.querySelector('.logo img');
+      logoImage.addEventListener('load', function() {
+        window.print();
+      });
     }
   </script>
 </body>
