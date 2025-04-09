@@ -317,6 +317,7 @@
       const parcelas = parseInt(document.getElementById('parcelas').value);
       const valor = parseFloat(document.getElementById('valor').value);
       const vencimento = new Date(document.getElementById('vencimento').value);
+      const emissao = new Date(document.getElementById('emissao').value);
 
       // Validação dos campos
       if (!nome || !documento || !parcelas || !valor || !vencimento) {
@@ -386,7 +387,7 @@
                 <div class="dt-doc">
                   <div class="emissao">
                     <label>Dt. Emissão</label>
-                    <div class="valor">${new Date().toLocaleDateString('pt-BR')}</div>
+                    <div class="valor">${emissao.toLocaleDateString('pt-BR')}</div>
                   </div>
                   <div class="num-doc">
                     <label>N° Documento</label>
