@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerar Carnê</title>
+  <style>
+    /* Estilos fornecidos por você */
+    .carne {
+      width: 1000px;
+      margin: 30px auto; /* Espaço grande entre os carnês */
+      height: 360px;
+      display: flex;
+      border: #000 double 2px;
+      page-break-before: auto;
+    }
+
+    /* Quebra de página a cada 3 carnês */
+    .carne:nth-child(3n+1) {
+      page-break-before: always;
+    }
+
+    .carne > .canhoto {
+      width: 220px;
+      border-right: #333 double 5px;
+      padding-top: 4px;
+    }
+    .carne > .canhoto > div {
+      height: 40px;
+      border-bottom: #000 solid 1px;
+      padding-left: 8px;
+      padding-right: 8px;
+      overflow: hidden;
+    }
+    .carne > .canhoto > div > label {
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .carne > .canhoto > div > div {
+      font-size: 16px;
+    }
+    .carne > .canhoto > .logo {
+      height: 70px;
+      text-align: center !important;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 4px; 
+    }
+    .carne > .canhoto > .logo .valor {
+      text-align: center !important;
+    }
+    .carne > .canhoto > .logo img {
+      height: 100%;
+    }
+    .carne > .canhoto > .logo .valor {
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .carne > .canhoto > .sacado {
+      height: 60px;
+    }
+    .carne > .canhoto > .recibo {
+      text-align: center;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .info {
+      width: 100%;
+    }
+    .info .header {
+      width: 100%;
+      height: 40px;
+      display: flex;
+    }
+    .info .header .parcela {
+      width: 180px;
+      padding-top: 8px;
+      padding-left: 8px;
+      border-right: #000 solid 2px;
+      border-bottom: #000 solid 2px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+    .info .header .nome {
+      width: 100%;
+      font-size: 22px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-bottom: #000 solid 2px;
+    }
+    .info .content {
+      display: flex;
+      height: 320px;
+    }
+    .info .content .info-esquerda {
+      width: 670px;
+      border-right: #000 solid 2px;
+      height: 100%;
+    }
+    .info label {
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .info .content .local .valor {
+      font-size: 18px;
+      padding-top: 4px;
+      padding-bottom: 6px;
+    }
+    .info .content .local {
+      border-bottom: #000 solid 2px;
+      padding-left: 8px;
+      padding-top: 4px;
+    }
+    .info .content .info-esquerda .dt-doc {
+      border-bottom: #000 solid 2px;
+      display: flex;
+      height: 40px;
+      width: 100%;
+    }
+    .info .content .info-esquerda .dt-doc .emissao {
+      border-right: #000 solid 2px;
+      width: 250px;
+      padding-top: 2px;
+      padding-left: 8px;
+      padding-bottom: 8px;
+      padding-right: 8px;
+    }
+    .info .content .info-esquerda .dt-doc .num-doc {
+      padding-left: 8px;
+      padding-top: 2px;
+      width: 380px;
+    }
+    .descricao {
+      text-align: justify;
+      padding-left: 8px;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      font-size: 14px;
+    }
+    .contas {
+      display: flex;
+      padding-left: 16px;
+      padding-right: 4px;
+      border-bottom: #000 solid 1px;
+      padding-bottom: 6px;
+      padding-top: 7px;
+    }
+    .contas label {
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+    .caixa {
+      border-right: #000 solid 2px;
+      padding-right: 16px;
+      margin-right: 16px;
+    }
+    .sacado {
+      overflow: hidden;
+    }
+    .sacado .nome-sacado {
+      font-size: 11px !important;
+    }
+    .sacado2 {
+      padding-left: 8px;
+      padding-top: 4px;
+    }
+    .info-direita {
+      display: flex;
+      flex-direction: column;
+      width: 144px;
+    }
+    .info-direita label {
+      display: block;
+      margin-bottom: 8px;
+    }
+    .vencimento2 {
+      padding-left: 4px;
+      padding-top: 8px;
+      border-bottom: #000 solid 2px;
+      height: 70px;
+      padding-right: 4px;
+    }
+    .valor-doc2 {
+      padding-left: 4px;
+      padding-top: 8px;
+      border-bottom: #000 solid 2px;
+      height: 70px;
+      padding-right: 4px;
+    }
+    .desconto2 {
+      padding-left: 4px;
+      padding-top: 8px;
+      border-bottom: #000 solid 2px;
+      height: 70px;
+      padding-right: 4px;
+    }
+    .valor-cobrado2 {
+      padding-left: 4px;
+      padding-top: 8px;
+      height: 70px;
+      padding-right: 4px;
+    }
+    .valor {
+      width: 100%;
+      text-align: right;
+      padding-right: 12px; /* Padding-right adicionado */
+    }
+    /* Formulário */
+    .container {
+      width: 100%;
+      max-width: 900px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-size: 1rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 2px solid #ccc;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    input:focus, select:focus {
+      border-color: #007aff;
+    }
+
+    .btn {
+      background-color: #007aff;
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      font-size: 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #005bb5;
+    }
+    /* Hide form when carnê is displayed */
+    #formulario {
+      display: block;
+    }
+    #cards-container {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Formulário para inserção dos dados -->
+  <div id="formulario" class="container">
+    <h1>Preencha os Dados do Carnê</h1>
+    <div class="form-group">
+      <label for="nome">Nome do Sacado</label>
+      <input type="text" id="nome" placeholder="Nome do sacado" required>
+    </div>
+    <div class="form-group">
+      <label for="documento">Número do Documento</label>
+      <input type="text" id="documento" placeholder="Número do documento" required>
+    </div>
+    <div class="form-group">
+      <label for="parcelas">Número de Parcelas</label>
+      <input type="number" id="parcelas" min="1" placeholder="Número de parcelas" required>
+    </div>
+    <div class="form-group">
+      <label for="valor">Valor Total</label>
+      <input type="number" id="valor" placeholder="Valor total do documento" required>
+    </div>
+    <div class="form-group">
+      <label for="vencimento">Data da Primeira Parcela</label>
+      <input type="date" id="vencimento" required>
+    </div>
+    <div class="form-group">
+      <label for="emissao">Data da Emissão</label>
+      <input type="date" id="emissao" value="${new Date().toISOString().split('T')[0]}" readonly>
+    </div>
+    <button class="btn" onclick="gerarCarne()">Gerar Carnês</button>
+  </div>
+
+  <!-- Container para exibir os carnês gerados -->
+  <div class="card-container" id="cards-container">
+    <!-- Carnês gerados serão exibidos aqui -->
+  </div>
+
+  <script>
+    function gerarCarne() {
+      const nome = document.getElementById('nome').value;
+      const documento = document.getElementById('documento').value;
+      const parcelas = parseInt(document.getElementById('parcelas').value);
+      const valor = parseFloat(document.getElementById('valor').value);
+      const vencimento = new Date(document.getElementById('vencimento').value);
+
+      // Validação dos campos
+      if (!nome || !documento || !parcelas || !valor || !vencimento) {
+        alert('Por favor, preencha todos os campos.');
+        return;
+      }
+
+      // Limpar carnês anteriores
+      const container = document.getElementById('cards-container');
+      container.innerHTML = '';
+
+      // Gerar carnês
+      for (let i = 0; i < parcelas; i++) {
+        const carne = document.createElement('div');
+        carne.className = 'carne';
+
+        // Calcular vencimento (ajustar data para garantir que o erro do dia anterior não ocorra)
+        const vencimentoParcela = new Date(vencimento);
+        vencimentoParcela.setMonth(vencimentoParcela.getMonth() + i);
+        vencimentoParcela.setDate(vencimentoParcela.getDate() + 1); // Corrigindo o erro de data
+
+        // Calcular valor por parcela
+        const valorParcela = (valor / parcelas).toFixed(2);
+
+        carne.innerHTML = `
+          <div class="canhoto">
+            <div class="logo">
+              <img src='./logoSJ.png' alt="Logo" />
+              <div class="valor">ÓTICA<br/>SÃO JOSÉ</div>
+            </div>
+            <div class="recibo">RECIBO DO SACADO</div>
+            <div class="documento">
+              <label>N° Documento</label>
+              <div class="valor">${documento}</div>
+            </div>
+            <div class="vencimento">
+              <label>Vencimento</label>
+              <div class="valor">${vencimentoParcela.toLocaleDateString('pt-BR')}</div>
+            </div>
+            <div class="valor-doc">
+              <label>Vl. Documento</label>
+              <div class="valor">R$ ${valorParcela}</div>
+            </div>
+            <div class="cobrado">
+              <label>Vl. Cobrado</label>
+              <div class="valor">R$ ${valorParcela}</div>
+            </div>
+            <div class="sacado">
+              <label>Sacado</label>
+              <div class="nome-sacado">${nome}</div>
+            </div>
+          </div>
+          <div class="info">
+            <div class="header">
+              <div class="parcela">
+                <label>PARCELA:</label>
+                <div class="valor">${i + 1}/${parcelas}</div>
+              </div>
+              <div class="nome">ÓTICA SÃO JOSÉ - RECIBO DO CEDENTE</div>
+            </div>
+            <div class="content">
+              <div class="info-esquerda">
+                <div class="local">
+                  <label>Local de Pagamento</label>
+                  <div class="valor">ÓTICA SÃO JOSÉ - Qualidade para sua visão</div>
+                </div>
+                <div class="dt-doc">
+                  <div class="emissao">
+                    <label>Dt. Emissão</label>
+                    <div class="valor">${new Date().toLocaleDateString('pt-BR')}</div>
+                  </div>
+                  <div class="num-doc">
+                    <label>N° Documento</label>
+                    <div class="valor">${documento}</div>
+                  </div>
+                </div>
+                <div class="descricao">
+                  Observação: Você pode pagar também seu carnê nos bancos CAIXA ECONÔMICA e BANCO DO BRASIL.
+                </div>
+                <div class="contas">
+                  <div class="caixa">
+                    <label>CAIXA ECONÔMICA (POUPANÇA)</label>
+                    <strong>Ag.:</strong> 0785/ VAR. 013<br/>
+                    <strong>Conta</strong> 40.496-0<br/>
+                    <div>JOSÉ OSSIAS VASCONCELOS DE SOUZA</div>
+                    <div><strong>PIX:</strong> 889.9241.6576</div>
+                  </div>
+                  <div class="bb">
+                    <label>BANCO DO BRASIL (CORRENTE)</label>
+                    <strong>Ag.:</strong> 1157-6<br/>
+                    <strong>Conta</strong> 18.915-4<br/>
+                    <div>JOSÉ OSSIAS VASCONCELOS DE SOUZA</div>
+                    <div><strong>PIX:</strong> 182.058.873-49</div>
+                  </div>
+                </div>
+                <div class="sacado2">
+                  <label>Sacado</label>
+                  <div class="nome-sacado">${nome}</div>
+                </div>
+              </div>
+              <div class="info-direita">
+                <div class="vencimento2">
+                  <label>Vencimento</label>
+                  <div class="valor">${vencimentoParcela.toLocaleDateString('pt-BR')}</div>
+                </div>
+                <div class="valor-doc2">
+                  <label>Valor Documento</label>
+                  <div class="valor">R$ ${valorParcela}</div>
+                </div>
+                <div class="desconto2">
+                  <label>Desconto</label>
+                  <div class="valor">R$ 0,00</div>
+                </div>
+                <div class="valor-cobrado2">
+                  <label>Valor Cobrado</label>
+                  <div class="valor">R$ ${valorParcela}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        container.appendChild(carne);
+      }
+
+      // Esconde o formulário após gerar os carnês
+      document.getElementById('formulario').style.display = 'none';
+      document.getElementById('cards-container').style.display = 'block';
+
+      // Comando de impressão automática
+      window.print();
+    }
+  </script>
+</body>
+</html>
